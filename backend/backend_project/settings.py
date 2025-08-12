@@ -83,15 +83,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend_project.wsgi.application'
 
 # Database (PostgreSQL)
+import dj_database_url  # Add this package (install via pip)
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env("DB_NAME", default="green_cart"),
-        'USER': env("DB_USER", default="postgres"),
-        'PASSWORD': env("DB_PASSWORD", default="postgres"),
-        'HOST': env("DB_HOST", default="localhost"),
-        'PORT': env("DB_PORT", default="5432"),
-    }
+    'default': dj_database_url.config(
+        default=env('DATABASE_URL', default='')
+    )
 }
 
 # Password validation
