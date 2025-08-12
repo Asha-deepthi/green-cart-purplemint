@@ -12,5 +12,10 @@ export default function OnTimeLateChart({ onTime, late }) {
     }]
   };
 
-  return <div style={{width:300}}><Pie data={data} /></div>;
+  return (
+    <div className="w-full max-w-xs mx-auto p-4 bg-white rounded shadow-md">
+      <Pie data={data} />
+    </div>
+  );
 }
+

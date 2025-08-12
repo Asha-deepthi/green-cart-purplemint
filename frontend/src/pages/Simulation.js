@@ -13,13 +13,11 @@ export default function Simulation() {
     e.preventDefault();
     setError(null);
     try {
-      const res = await api.post("/simulations/", {
+      await api.post("/simulations/", {
         available_drivers: availableDrivers,
         route_start_time: routeStartTime,
         max_hours_per_driver: maxHours,
       });
-      // Optionally save result somewhere if needed
-      // Redirect to dashboard after successful simulation
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data || "Error");
@@ -27,29 +25,56 @@ export default function Simulation() {
   }
 
   return (
-    <div>
-      <h2>Run Simulation</h2>
-      <form onSubmit={runSim}>
-        <label>Available Drivers</label>
-        <input
-          type="number"
-          value={availableDrivers}
-          onChange={(e) => setAvailableDrivers(Number(e.target.value))}
-        />
-        <label>Route Start Time (HH:MM)</label>
-        <input
-          value={routeStartTime}
-          onChange={(e) => setRouteStartTime(e.target.value)}
-        />
-        <label>Max Hours per Driver</label>
-        <input
-          type="number"
-          value={maxHours}
-          onChange={(e) => setMaxHours(Number(e.target.value))}
-        />
-        <button type="submit">Run Simulation</button>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <form
+        onSubmit={runSim}
+        className="bg-white p-8 rounded shadow-md w-full max-w-md space-y-6"
+      >
+        <h2 className="text-2xl font-semibold text-center">Run Simulation</h2>
+
+        <div>
+          <label className="block mb-1 font-medium">Available Drivers</label>
+          <input
+            type="number"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={availableDrivers}
+            onChange={(e) => setAvailableDrivers(Number(e.target.value))}
+            min={1}
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Route Start Time (HH:MM)</label>
+          <input
+            type="time"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={routeStartTime}
+            onChange={(e) => setRouteStartTime(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="block mb-1 font-medium">Max Hours per Driver</label>
+          <input
+            type="number"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={maxHours}
+            onChange={(e) => setMaxHours(Number(e.target.value))}
+            min={1}
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
+        >
+          Run Simulation
+        </button>
+
+        {error && (
+          <div className="text-center text-red-600 font-medium">{JSON.stringify(error)}</div>
+        )}
       </form>
-      {error && <div style={{ color: "red" }}>Error: {JSON.stringify(error)}</div>}
     </div>
   );
 }
