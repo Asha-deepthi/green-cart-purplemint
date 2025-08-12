@@ -48,3 +48,9 @@ class RunSimulationAPIView(APIView):
         sim = SimulationResult.objects.create(inputs={"available_drivers":available_drivers,"route_start_time":route_start_time,"max_hours_per_driver":max_hours_per_driver}, results=results)
         ser = SimulationResultSerializer(sim)
         return Response(ser.data, status=status.HTTP_200_OK)
+    
+    def get(self, request):
+        # Return list of all simulation results, ordered by creation time
+        sims = SimulationResult.objects.all().order_by('timestamp')
+        serializer = SimulationResultSerializer(sims, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

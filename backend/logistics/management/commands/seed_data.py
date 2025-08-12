@@ -8,9 +8,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         # Adjust paths to your Excel files
-        drivers_df = pd.read_excel('drivers.csv')
-        routes_df = pd.read_excel('routes.csv')
-        orders_df = pd.read_excel('orders.csv')
+        drivers_df = pd.read_csv('drivers.csv')
+        routes_df = pd.read_csv('routes.csv')
+        orders_df = pd.read_csv('orders.csv')
 
         # Seed Drivers
         self.stdout.write("Seeding Drivers...")
